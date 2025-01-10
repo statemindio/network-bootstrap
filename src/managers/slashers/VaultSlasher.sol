@@ -34,9 +34,7 @@ abstract contract VaultSlasher is BaseSlasher, SlashSubnetworkWeightProviderStor
      * @param wpDataParams Params data for weight provider
      * @return A struct SlashResponse containing information about the slash response.
      */
-    function slash(
-        SlashParams calldata params
-    ) public checkAccess {
+    function slash(SlashParams calldata params) public checkAccess {
         address operator = getOperatorAndCheckCanSlash(params.key, params.timestamp);
 
         if (!_vaultWasActiveAt(params.timestamp, operator, params.vault)) {
@@ -57,8 +55,11 @@ abstract contract VaultSlasher is BaseSlasher, SlashSubnetworkWeightProviderStor
         {
             address[] memory vaults = new address[](1);
             vaults[0] = params.vault;
-            bytes memory wpData = WPDataComposer.composeWPData(_slashSubnetworkWeightProvider(), params.timestamp, operator, vaults, _subnetworks, params.wpDataParams);
-            (weights, totalWeight) = IWeightProvider(_slashSubnetworkWeightProvider()).getWeightsAndTotal(_subnetworks, wpData);
+            bytes memory wpData = WPDataComposer.composeWPData(
+                _slashSubnetworkWeightProvider(), params.timestamp, operator, vaults, _subnetworks, params.wpDataParams
+            );
+            (weights, totalWeight) =
+                IWeightProvider(_slashSubnetworkWeightProvider()).getWeightsAndTotal(_subnetworks, wpData);
         }
 
         if (weights.length != _subnetworks.length) {
@@ -74,7 +75,9 @@ abstract contract VaultSlasher is BaseSlasher, SlashSubnetworkWeightProviderStor
             }
             usedAmount += subnetworkAmount;
 
-            _slashVault(params.timestamp, params.vault, _subnetworks[i], operator, subnetworkAmount, params.slashHints[i]);
+            _slashVault(
+                params.timestamp, params.vault, _subnetworks[i], operator, subnetworkAmount, params.slashHints[i]
+            );
         }
     }
 }

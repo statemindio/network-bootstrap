@@ -12,8 +12,7 @@ import {DefaultRewardsBaseTest} from "./helpers/DefaultRewardsBase.t.sol";
 import {DefaultStakerRewards} from "@symbioticfi/rewards/src/contracts/defaultStakerRewards/DefaultStakerRewards.sol";
 import {EqualStakePower} from "@symbioticfi/middleware-sdk/extensions/managers/stake-powers/EqualStakePower.sol";
 import {IAccessControl} from "@openzeppelin/contracts/access/IAccessControl.sol";
-import {TimestampCapture} from
-    "@symbioticfi/middleware-sdk/extensions/managers/capture-timestamps/TimestampCapture.sol";
+import {TimestampCapture} from "@symbioticfi/middleware-sdk/extensions/managers/capture-timestamps/TimestampCapture.sol";
 import {SdkMiddlewareReader} from "../src/extensions/SdkMiddlewareReader.sol";
 
 contract DefaultRewardsDistributorInitializable is
@@ -38,14 +37,7 @@ contract DefaultRewardsDistributorInitializable is
         address operatorRewardsDistributor,
         address operatorRewardsRegistry
     ) external initializer {
-        __BaseMiddleware_init(
-            network,
-            slashingWindow,
-            vaultRegistry,
-            operatorRegistry,
-            operatorNetOptin,
-            reader
-        );
+        __BaseMiddleware_init(network, slashingWindow, vaultRegistry, operatorRegistry, operatorNetOptin, reader);
         __DefaultRewardsDistributorRoles_init(
             setStakerRewardsDistributorsRole, resetStakerRewardsDistributorsRole, setOperatorRewardsDistributorRole
         );
@@ -110,11 +102,17 @@ contract DefaultRewardsDistributorTest is DefaultRewardsBaseTest {
         assertEq(SdkMiddlewareReader(address(distributor)).stakerRewardsDistributors(address(vault)), address(0));
         vm.prank(alice);
         distributor.setStakerRewardsDistributor(address(vault), address(defaultStakerRewards));
-        assertEq(SdkMiddlewareReader(address(distributor)).stakerRewardsDistributors(address(vault)), address(defaultStakerRewards));
+        assertEq(
+            SdkMiddlewareReader(address(distributor)).stakerRewardsDistributors(address(vault)),
+            address(defaultStakerRewards)
+        );
         defaultStakerRewards = createDefaultStakerRewards(0, address(vault));
         vm.prank(alice);
         distributor.setStakerRewardsDistributor(address(vault), address(defaultStakerRewards));
-        assertEq(SdkMiddlewareReader(address(distributor)).stakerRewardsDistributors(address(vault)), address(defaultStakerRewards));
+        assertEq(
+            SdkMiddlewareReader(address(distributor)).stakerRewardsDistributors(address(vault)),
+            address(defaultStakerRewards)
+        );
         vm.prank(alice);
         distributor.resetStakerRewardsDistributor(address(vault));
         assertEq(SdkMiddlewareReader(address(distributor)).stakerRewardsDistributors(address(vault)), address(0));
@@ -138,10 +136,16 @@ contract DefaultRewardsDistributorTest is DefaultRewardsBaseTest {
     }
 
     function test_setOperatorRewardsDistributor_initial_changing_removing() external {
-        assertEq(address(SdkMiddlewareReader(address(distributor)).operatorRewardsDistributor()), address(defaultOperatorRewards));
+        assertEq(
+            address(SdkMiddlewareReader(address(distributor)).operatorRewardsDistributor()),
+            address(defaultOperatorRewards)
+        );
         defaultOperatorRewards = createDefaultOperatorRewards();
         vm.prank(bob);
         distributor.setOperatorRewardsDistributor(address(defaultOperatorRewards));
-        assertEq(address(SdkMiddlewareReader(address(distributor)).operatorRewardsDistributor()), address(defaultOperatorRewards));
+        assertEq(
+            address(SdkMiddlewareReader(address(distributor)).operatorRewardsDistributor()),
+            address(defaultOperatorRewards)
+        );
     }
 }

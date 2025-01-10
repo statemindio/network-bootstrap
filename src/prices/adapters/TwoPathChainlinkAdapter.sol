@@ -36,20 +36,22 @@ contract TwoPathChainlinkAdapter is BaseChainlinkPriceAdapter {
     }
 
     function getPrice(bytes memory) external view override returns (uint256) {
-        (uint token1Price, uint8 feed1Decimals) = _getLatestPrice(AggregatorV2V3Interface(priceFeed1), heartBeat1);
-        (uint token2Price, uint8 feed2Decimals) = _getLatestPrice(AggregatorV2V3Interface(priceFeed2), heartBeat2);
+        (uint256 token1Price, uint8 feed1Decimals) = _getLatestPrice(AggregatorV2V3Interface(priceFeed1), heartBeat1);
+        (uint256 token2Price, uint8 feed2Decimals) = _getLatestPrice(AggregatorV2V3Interface(priceFeed2), heartBeat2);
 
-        uint combinedPrice = token1Price * token2Price;
+        uint256 combinedPrice = token1Price * token2Price;
         return _normalizeCombinedPrice(combinedPrice, feed1Decimals, feed2Decimals);
     }
 
     function getPriceAt(uint256 timestamp, bytes memory data) external view override returns (uint256) {
         (uint80 priceFeed1RoundId, uint80 priceFeed2RoundId) = abi.decode(data, (uint80, uint80));
 
-        (uint token1Price, uint8 feed1Decimals) = _verifyTimestampAndGetPrice(AggregatorV2V3Interface(priceFeed1), timestamp, priceFeed1RoundId);
-        (uint token2Price, uint8 feed2Decimals) = _verifyTimestampAndGetPrice(AggregatorV2V3Interface(priceFeed2), timestamp, priceFeed2RoundId);
+        (uint256 token1Price, uint8 feed1Decimals) =
+            _verifyTimestampAndGetPrice(AggregatorV2V3Interface(priceFeed1), timestamp, priceFeed1RoundId);
+        (uint256 token2Price, uint8 feed2Decimals) =
+            _verifyTimestampAndGetPrice(AggregatorV2V3Interface(priceFeed2), timestamp, priceFeed2RoundId);
 
-        uint price = token1Price * token2Price;
+        uint256 price = token1Price * token2Price;
         return _normalizeCombinedPrice(price, feed1Decimals, feed2Decimals);
     }
 

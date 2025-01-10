@@ -14,8 +14,7 @@ import {NoKeyManager} from "@symbioticfi/middleware-sdk/extensions/managers/keys
 import {ProxyRewardManager} from "../src/managers/rewards/ProxyRewardManager.sol";
 import {ProxyRewardRoles} from "../src/extensions/rewards/ProxyRewardRoles.sol";
 import {ProxyReward} from "../src/extensions/rewards/ProxyReward.sol";
-import {TimestampCapture} from
-    "@symbioticfi/middleware-sdk/extensions/managers/capture-timestamps/TimestampCapture.sol";
+import {TimestampCapture} from "@symbioticfi/middleware-sdk/extensions/managers/capture-timestamps/TimestampCapture.sol";
 import {Token} from "./mocks/Token.sol";
 
 contract ProxyRewardTest is DefaultRewardsBaseTest {

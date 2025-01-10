@@ -8,11 +8,15 @@ import {IAccessControl} from "@openzeppelin/contracts/access/IAccessControl.sol"
 import {NoKeyManager} from "@symbioticfi/middleware-sdk/extensions/managers/keys/NoKeyManager.sol";
 import {RewardWeightProviderRoles} from "../src/extensions/storages/RewardWeightProviderRoles.sol";
 import {RewardWeightProvider} from "../src/extensions/storages/RewardWeightProvider.sol";
-import {SlashVaultWeightProviderRoles, SlashSubnetworkWeightProviderRoles} from "../src/extensions/storages/SlashWeightProviderRoles.sol";
-import {SlashVaultWeightProvider, SlashSubnetworkWeightProvider} from "../src/extensions/storages/SlashWeightProvider.sol";
+import {
+    SlashVaultWeightProviderRoles,
+    SlashSubnetworkWeightProviderRoles
+} from "../src/extensions/storages/SlashWeightProviderRoles.sol";
+import {
+    SlashVaultWeightProvider, SlashSubnetworkWeightProvider
+} from "../src/extensions/storages/SlashWeightProvider.sol";
 import {Test} from "forge-std/Test.sol";
-import {TimestampCapture} from
-"@symbioticfi/middleware-sdk/extensions/managers/capture-timestamps/TimestampCapture.sol";
+import {TimestampCapture} from "@symbioticfi/middleware-sdk/extensions/managers/capture-timestamps/TimestampCapture.sol";
 
 contract RewardWeightProviderHolderRolesTest is DefaultRewardsBaseTest {
     RewardWeightProviderRoles holder;
@@ -53,12 +57,7 @@ contract RewardWeightProviderHolderRolesTest is DefaultRewardsBaseTest {
     }
 }
 
-contract RewardTestNetworkMiddleware is
-    RewardWeightProviderRoles,
-    NoKeyManager,
-    EqualStakePower,
-    TimestampCapture
-{
+contract RewardTestNetworkMiddleware is RewardWeightProviderRoles, NoKeyManager, EqualStakePower, TimestampCapture {
     function initialize(
         address network,
         uint48 slashingWindow,
@@ -68,14 +67,7 @@ contract RewardTestNetworkMiddleware is
         address reader,
         address setWeightProvider
     ) public initializer {
-        __BaseMiddleware_init(
-            network,
-            slashingWindow,
-            vaultRegistry,
-            operatorRegistry,
-            operatorNetOptin,
-            reader
-        );
+        __BaseMiddleware_init(network, slashingWindow, vaultRegistry, operatorRegistry, operatorNetOptin, reader);
         __RewardWeightProviderHolderRoles_init(setWeightProvider);
     }
 }
@@ -154,19 +146,11 @@ contract SlashTestNetworkMiddleware is
         address setSlashVaultWeightProvider,
         address setSlashSubnetworkWeightProvider
     ) public initializer {
-        __BaseMiddleware_init(
-            network,
-            slashingWindow,
-            vaultRegistry,
-            operatorRegistry,
-            operatorNetOptin,
-            reader
-        );
+        __BaseMiddleware_init(network, slashingWindow, vaultRegistry, operatorRegistry, operatorNetOptin, reader);
         __SlashVaultWeightProviderHolderRoles_init(setSlashVaultWeightProvider);
         __SlashSubnetworkWeightProviderHolderRoles_init(setSlashSubnetworkWeightProvider);
     }
 }
-
 
 contract MockWeightProvider {
     uint64 public immutable TYPE;

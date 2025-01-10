@@ -22,7 +22,7 @@ abstract contract BaseStakerRewardsManager is VaultManager {
 
     // keccak256(abi.encode(uint256(keccak256("statemind.storage.BaseStakerRewardsManager")) - 1)) & ~bytes32(uint256(0xff))
     bytes32 private constant BaseStakerRewardsManagerStorageLocation =
-    0x127d37d169e9e611a4bf2839d4838622a386d8303a907122638258c5b3f1ec00;
+        0x127d37d169e9e611a4bf2839d4838622a386d8303a907122638258c5b3f1ec00;
 
     function __BaseDefaultStakerRewardsManager_init(
         address[] memory vaults,
@@ -60,9 +60,9 @@ abstract contract BaseStakerRewardsManager is VaultManager {
     }
 
     function _getBaseDefaultStakerRewardsManagerStorage()
-    internal
-    pure
-    returns (BaseDefaultStakerRewardsManagerStorage storage $)
+        internal
+        pure
+        returns (BaseDefaultStakerRewardsManagerStorage storage $)
     {
         assembly {
             $.slot := BaseStakerRewardsManagerStorageLocation
@@ -86,24 +86,20 @@ abstract contract BaseStakerRewardsManager is VaultManager {
         (bool success, address operator) = $._vaultOperator.tryGet(vault);
 
         if (
-            (success && !_vaultWasActiveAt(timestamp, operator, vault)) ||
-            (!success && !_sharedVaultWasActiveAt(timestamp, vault))
+            (success && !_vaultWasActiveAt(timestamp, operator, vault))
+                || (!success && !_sharedVaultWasActiveAt(timestamp, vault))
         ) {
             revert NotActiveVault();
         }
     }
 
     function _decodeDistributorTimestamp(bytes memory data) internal pure returns (uint48 timestamp) {
-        (
-            timestamp, /*uint256 maxAdminFee*/
-            , /*bytes memory activeSharesHint*/
-            , /*bytes memory activeStakeHint*/
-        ) = abi.decode(data, (uint48, uint256, bytes, bytes));
+        (timestamp, /*uint256 maxAdminFee*/, /*bytes memory activeSharesHint*/, /*bytes memory activeStakeHint*/ ) =
+            abi.decode(data, (uint48, uint256, bytes, bytes));
     }
 }
 
 abstract contract BaseStakerRewardsManagerReader is BaseStakerRewardsManager {
-
     function stakerRewardsDistributors(address vault) public view returns (address) {
         return _stakerRewardsDistributors(vault);
     }

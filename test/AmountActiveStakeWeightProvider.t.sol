@@ -139,8 +139,10 @@ contract AmountActiveStakeWeightProviderTest is VaultBaseTest {
         address v5 = _createMockVaultWithCollateral(vaultNumber == 4 ? otherCollateral : address(collateral));
         address v6 = _createMockVaultWithCollateral(vaultNumber == 5 ? otherCollateral : address(collateral));
 
-        AmountActiveStakeWeightProvider.AmountWPData memory data =
-            AmountActiveStakeWeightProvider.AmountWPData({timestamp: uint48(block.timestamp), activeStakeAtHints: new bytes[](6)});
+        AmountActiveStakeWeightProvider.AmountWPData memory data = AmountActiveStakeWeightProvider.AmountWPData({
+            timestamp: uint48(block.timestamp),
+            activeStakeAtHints: new bytes[](6)
+        });
         // hints empty
 
         bytes32[] memory entities = new bytes32[](6);
@@ -179,8 +181,10 @@ contract AmountActiveStakeWeightProviderTest is VaultBaseTest {
         address v5 = _createMockVaultWithCollateral(vaultNumber == 4 ? address(0) : address(collateral));
         address v6 = _createMockVaultWithCollateral(vaultNumber == 5 ? address(0) : address(collateral));
 
-        AmountActiveStakeWeightProvider.AmountWPData memory data =
-            AmountActiveStakeWeightProvider.AmountWPData({timestamp: uint48(block.timestamp), activeStakeAtHints: new bytes[](6)});
+        AmountActiveStakeWeightProvider.AmountWPData memory data = AmountActiveStakeWeightProvider.AmountWPData({
+            timestamp: uint48(block.timestamp),
+            activeStakeAtHints: new bytes[](6)
+        });
         // hints empty
 
         bytes32[] memory entities = new bytes32[](6);

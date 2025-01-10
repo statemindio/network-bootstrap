@@ -18,7 +18,8 @@ import {Operators} from "@symbioticfi/middleware-sdk/extensions/operators/Operat
 import {SelfRegisterOperators} from "@symbioticfi/middleware-sdk/extensions/operators/SelfRegisterOperators.sol";
 import {ECDSASig} from "@symbioticfi/middleware-sdk/extensions/managers/sigs/ECDSASig.sol";
 import {KeyManager256} from "@symbioticfi/middleware-sdk/extensions/managers/keys/KeyManager256.sol";
-import {ForcePauseSelfRegisterOperators} from "@symbioticfi/middleware-sdk/extensions/operators/ForcePauseSelfRegisterOperators.sol";
+import {ForcePauseSelfRegisterOperators} from
+    "@symbioticfi/middleware-sdk/extensions/operators/ForcePauseSelfRegisterOperators.sol";
 import {TimestampCapture} from "@symbioticfi/middleware-sdk/extensions/managers/capture-timestamps/TimestampCapture.sol";
 import {EpochCapture} from "@symbioticfi/middleware-sdk/extensions/managers/capture-timestamps/EpochCapture.sol";
 
@@ -53,8 +54,14 @@ import {EpochCapture} from "@symbioticfi/middleware-sdk/extensions/managers/capt
 // 2) SelfRegisterOperators
 // 3) ForcePauseSelfRegisterOperators
 
-contract ManualRewardsSlashOperatorsEpochCaptureRolesMiddleware is ProxyRewardRoles, FlexibleSlasherRoles, Operators, KeyManager256, EqualStakePower, EpochCapture {
-
+contract ManualRewardsSlashOperatorsEpochCaptureRolesMiddleware is
+    ProxyRewardRoles,
+    FlexibleSlasherRoles,
+    Operators,
+    KeyManager256,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -81,17 +88,22 @@ contract ManualRewardsSlashOperatorsEpochCaptureRolesMiddleware is ProxyRewardRo
         address distributeOperatorRewards;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __FlexibleSlasherRoles_init(params.slasher);
@@ -102,60 +114,15 @@ contract ManualRewardsSlashOperatorsEpochCaptureRolesMiddleware is ProxyRewardRo
     }
 }
 
-contract ManualRewardsSlashSelfRegisterOperatorsEpochCaptureRolesMiddleware is ProxyRewardRoles, FlexibleSlasherRoles, SelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, EpochCapture {
-
-    struct InitParams {
-        // BaseMiddleware
-        address network;
-        uint48 slashingWindow;
-        address vaultRegistry;
-        address operatorRegistry;
-        address operatorNetOptin;
-        address reader;
-        // BaseDefaultStakerRewardsManager
-        address[] vaults;
-        address[] stakerRewardsDistributors;
-        address stakerRewardsRegistry;
-        // BaseDefaultRewardsManager
-        address operatorRewardsDistributor;
-        address operatorRewardsRegistry;
-        // EpochCapture
-        uint48 epochDuration;
-        // FlexibleSlasherRoles
-        address slasher;
-        // OzAccessControl
-        address defaultAdmin;
-        // ProxyRewardRoles
-        address distributeStakerReward;
-        address distributeOperatorRewards;
-        // SelfRegisterOperators
-        string name;
-    }
-
-    constructor(
-        InitParams memory params
-    ) {
-        initialize(params);
-    }
-
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
-        __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
-        __EpochCapture_init(params.epochDuration);
-        __FlexibleSlasherRoles_init(params.slasher);
-        if (params.defaultAdmin != address(0)) {
-            __OzAccessControl_init(params.defaultAdmin);
-        }
-        __ProxyRewardRoles_init(params.distributeStakerReward, params.distributeOperatorRewards);
-        __SelfRegisterOperators_init(params.name);
-    }
-}
-
-contract ManualRewardsSlashForcePauseSelfRegisterOperatorsEpochCaptureRolesMiddleware is ProxyRewardRoles, FlexibleSlasherRoles, ForcePauseSelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, EpochCapture {
-
+contract ManualRewardsSlashSelfRegisterOperatorsEpochCaptureRolesMiddleware is
+    ProxyRewardRoles,
+    FlexibleSlasherRoles,
+    SelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -184,17 +151,22 @@ contract ManualRewardsSlashForcePauseSelfRegisterOperatorsEpochCaptureRolesMiddl
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __FlexibleSlasherRoles_init(params.slasher);
@@ -206,8 +178,78 @@ contract ManualRewardsSlashForcePauseSelfRegisterOperatorsEpochCaptureRolesMiddl
     }
 }
 
-contract WeightedRewardSubnetworkSlasherOperatorsEpochCaptureRolesMiddleware is WeightedRewardsRoles, SubnetworkSlasherRoles, Operators, KeyManager256, EqualStakePower, EpochCapture {
+contract ManualRewardsSlashForcePauseSelfRegisterOperatorsEpochCaptureRolesMiddleware is
+    ProxyRewardRoles,
+    FlexibleSlasherRoles,
+    ForcePauseSelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    EpochCapture
+{
+    struct InitParams {
+        // BaseMiddleware
+        address network;
+        uint48 slashingWindow;
+        address vaultRegistry;
+        address operatorRegistry;
+        address operatorNetOptin;
+        address reader;
+        // BaseDefaultStakerRewardsManager
+        address[] vaults;
+        address[] stakerRewardsDistributors;
+        address stakerRewardsRegistry;
+        // BaseDefaultRewardsManager
+        address operatorRewardsDistributor;
+        address operatorRewardsRegistry;
+        // EpochCapture
+        uint48 epochDuration;
+        // FlexibleSlasherRoles
+        address slasher;
+        // OzAccessControl
+        address defaultAdmin;
+        // ProxyRewardRoles
+        address distributeStakerReward;
+        address distributeOperatorRewards;
+        // SelfRegisterOperators
+        string name;
+    }
 
+    constructor(InitParams memory params) {
+        initialize(params);
+    }
+
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
+        __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
+        __EpochCapture_init(params.epochDuration);
+        __FlexibleSlasherRoles_init(params.slasher);
+        if (params.defaultAdmin != address(0)) {
+            __OzAccessControl_init(params.defaultAdmin);
+        }
+        __ProxyRewardRoles_init(params.distributeStakerReward, params.distributeOperatorRewards);
+        __SelfRegisterOperators_init(params.name);
+    }
+}
+
+contract WeightedRewardSubnetworkSlasherOperatorsEpochCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    SubnetworkSlasherRoles,
+    Operators,
+    KeyManager256,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -239,17 +281,22 @@ contract WeightedRewardSubnetworkSlasherOperatorsEpochCaptureRolesMiddleware is 
         address defaultAdmin;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -263,8 +310,15 @@ contract WeightedRewardSubnetworkSlasherOperatorsEpochCaptureRolesMiddleware is 
     }
 }
 
-contract WeightedRewardSubnetworkSlasherSelfRegisterOperatorsEpochCaptureRolesMiddleware is WeightedRewardsRoles, SubnetworkSlasherRoles, SelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, EpochCapture {
-
+contract WeightedRewardSubnetworkSlasherSelfRegisterOperatorsEpochCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    SubnetworkSlasherRoles,
+    SelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -298,17 +352,22 @@ contract WeightedRewardSubnetworkSlasherSelfRegisterOperatorsEpochCaptureRolesMi
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -323,8 +382,15 @@ contract WeightedRewardSubnetworkSlasherSelfRegisterOperatorsEpochCaptureRolesMi
     }
 }
 
-contract WeightedRewardSubnetworkSlasherForcePauseSelfRegisterOperatorsEpochCaptureRolesMiddleware is WeightedRewardsRoles, SubnetworkSlasherRoles, ForcePauseSelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, EpochCapture {
-
+contract WeightedRewardSubnetworkSlasherForcePauseSelfRegisterOperatorsEpochCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    SubnetworkSlasherRoles,
+    ForcePauseSelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -358,17 +424,22 @@ contract WeightedRewardSubnetworkSlasherForcePauseSelfRegisterOperatorsEpochCapt
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -383,8 +454,14 @@ contract WeightedRewardSubnetworkSlasherForcePauseSelfRegisterOperatorsEpochCapt
     }
 }
 
-contract WeightedRewardVaultSlasherOperatorsEpochCaptureRolesMiddleware is WeightedRewardsRoles, VaultSlasherRoles, Operators, KeyManager256, EqualStakePower, EpochCapture {
-
+contract WeightedRewardVaultSlasherOperatorsEpochCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    VaultSlasherRoles,
+    Operators,
+    KeyManager256,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -416,17 +493,22 @@ contract WeightedRewardVaultSlasherOperatorsEpochCaptureRolesMiddleware is Weigh
         address defaultAdmin;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -439,8 +521,15 @@ contract WeightedRewardVaultSlasherOperatorsEpochCaptureRolesMiddleware is Weigh
     }
 }
 
-contract WeightedRewardVaultSlasherSelfRegisterOperatorsEpochCaptureRolesMiddleware is WeightedRewardsRoles, VaultSlasherRoles, SelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, EpochCapture {
-
+contract WeightedRewardVaultSlasherSelfRegisterOperatorsEpochCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    VaultSlasherRoles,
+    SelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -474,17 +563,22 @@ contract WeightedRewardVaultSlasherSelfRegisterOperatorsEpochCaptureRolesMiddlew
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -498,8 +592,15 @@ contract WeightedRewardVaultSlasherSelfRegisterOperatorsEpochCaptureRolesMiddlew
     }
 }
 
-contract WeightedRewardVaultSlasherForcePauseSelfRegisterOperatorsEpochCaptureRolesMiddleware is WeightedRewardsRoles, VaultSlasherRoles, ForcePauseSelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, EpochCapture {
-
+contract WeightedRewardVaultSlasherForcePauseSelfRegisterOperatorsEpochCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    VaultSlasherRoles,
+    ForcePauseSelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -533,17 +634,22 @@ contract WeightedRewardVaultSlasherForcePauseSelfRegisterOperatorsEpochCaptureRo
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -557,8 +663,14 @@ contract WeightedRewardVaultSlasherForcePauseSelfRegisterOperatorsEpochCaptureRo
     }
 }
 
-contract WeightedRewardCommonSlasherOperatorsEpochCaptureRolesMiddleware is WeightedRewardsRoles, CommonSlasherRoles, Operators, KeyManager256, EqualStakePower, EpochCapture {
-
+contract WeightedRewardCommonSlasherOperatorsEpochCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    CommonSlasherRoles,
+    Operators,
+    KeyManager256,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -592,17 +704,22 @@ contract WeightedRewardCommonSlasherOperatorsEpochCaptureRolesMiddleware is Weig
         address defaultAdmin;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -617,8 +734,15 @@ contract WeightedRewardCommonSlasherOperatorsEpochCaptureRolesMiddleware is Weig
     }
 }
 
-contract WeightedRewardCommonSlasherSelfRegisterOperatorsEpochCaptureRolesMiddleware is WeightedRewardsRoles, CommonSlasherRoles, SelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, EpochCapture {
-
+contract WeightedRewardCommonSlasherSelfRegisterOperatorsEpochCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    CommonSlasherRoles,
+    SelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -654,17 +778,22 @@ contract WeightedRewardCommonSlasherSelfRegisterOperatorsEpochCaptureRolesMiddle
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -680,8 +809,15 @@ contract WeightedRewardCommonSlasherSelfRegisterOperatorsEpochCaptureRolesMiddle
     }
 }
 
-contract WeightedRewardCommonSlasherForcePauseSelfRegisterOperatorsRolesEpochCaptureMiddleware is WeightedRewardsRoles, CommonSlasherRoles, ForcePauseSelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, EpochCapture {
-
+contract WeightedRewardCommonSlasherForcePauseSelfRegisterOperatorsRolesEpochCaptureMiddleware is
+    WeightedRewardsRoles,
+    CommonSlasherRoles,
+    ForcePauseSelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    EpochCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -717,17 +853,22 @@ contract WeightedRewardCommonSlasherForcePauseSelfRegisterOperatorsRolesEpochCap
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __EpochCapture_init(params.epochDuration);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
@@ -743,8 +884,14 @@ contract WeightedRewardCommonSlasherForcePauseSelfRegisterOperatorsRolesEpochCap
     }
 }
 
-contract ManualRewardsSlashOperatorsTimestampCaptureRolesMiddleware is ProxyRewardRoles, FlexibleSlasherRoles, Operators, KeyManager256, EqualStakePower, TimestampCapture {
-
+contract ManualRewardsSlashOperatorsTimestampCaptureRolesMiddleware is
+    ProxyRewardRoles,
+    FlexibleSlasherRoles,
+    Operators,
+    KeyManager256,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -769,17 +916,22 @@ contract ManualRewardsSlashOperatorsTimestampCaptureRolesMiddleware is ProxyRewa
         address distributeOperatorRewards;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __FlexibleSlasherRoles_init(params.slasher);
         if (params.defaultAdmin != address(0)) {
@@ -789,57 +941,15 @@ contract ManualRewardsSlashOperatorsTimestampCaptureRolesMiddleware is ProxyRewa
     }
 }
 
-contract ManualRewardsSlashSelfRegisterOperatorsTimestampCaptureRolesMiddleware is ProxyRewardRoles, FlexibleSlasherRoles, SelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, TimestampCapture {
-
-    struct InitParams {
-        // BaseMiddleware
-        address network;
-        uint48 slashingWindow;
-        address vaultRegistry;
-        address operatorRegistry;
-        address operatorNetOptin;
-        address reader;
-        // BaseDefaultStakerRewardsManager
-        address[] vaults;
-        address[] stakerRewardsDistributors;
-        address stakerRewardsRegistry;
-        // BaseDefaultRewardsManager
-        address operatorRewardsDistributor;
-        address operatorRewardsRegistry;
-        // FlexibleSlasherRoles
-        address slasher;
-        // OzAccessControl
-        address defaultAdmin;
-        // ProxyRewardRoles
-        address distributeStakerReward;
-        address distributeOperatorRewards;
-        // SelfRegisterOperators
-        string name;
-    }
-
-    constructor(
-        InitParams memory params
-    ) {
-        initialize(params);
-    }
-
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
-        __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
-        __FlexibleSlasherRoles_init(params.slasher);
-        if (params.defaultAdmin != address(0)) {
-            __OzAccessControl_init(params.defaultAdmin);
-        }
-        __ProxyRewardRoles_init(params.distributeStakerReward, params.distributeOperatorRewards);
-        __SelfRegisterOperators_init(params.name);
-    }
-}
-
-contract ManualRewardsSlashForcePauseSelfRegisterOperatorsTimestampCaptureRolesMiddleware is ProxyRewardRoles, FlexibleSlasherRoles, ForcePauseSelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, TimestampCapture {
-
+contract ManualRewardsSlashSelfRegisterOperatorsTimestampCaptureRolesMiddleware is
+    ProxyRewardRoles,
+    FlexibleSlasherRoles,
+    SelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -866,17 +976,22 @@ contract ManualRewardsSlashForcePauseSelfRegisterOperatorsTimestampCaptureRolesM
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __FlexibleSlasherRoles_init(params.slasher);
         if (params.defaultAdmin != address(0)) {
@@ -887,8 +1002,75 @@ contract ManualRewardsSlashForcePauseSelfRegisterOperatorsTimestampCaptureRolesM
     }
 }
 
-contract WeightedRewardSubnetworkSlasherOperatorsTimestampCaptureRolesMiddleware is WeightedRewardsRoles, SubnetworkSlasherRoles, Operators, KeyManager256, EqualStakePower, TimestampCapture {
+contract ManualRewardsSlashForcePauseSelfRegisterOperatorsTimestampCaptureRolesMiddleware is
+    ProxyRewardRoles,
+    FlexibleSlasherRoles,
+    ForcePauseSelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    TimestampCapture
+{
+    struct InitParams {
+        // BaseMiddleware
+        address network;
+        uint48 slashingWindow;
+        address vaultRegistry;
+        address operatorRegistry;
+        address operatorNetOptin;
+        address reader;
+        // BaseDefaultStakerRewardsManager
+        address[] vaults;
+        address[] stakerRewardsDistributors;
+        address stakerRewardsRegistry;
+        // BaseDefaultRewardsManager
+        address operatorRewardsDistributor;
+        address operatorRewardsRegistry;
+        // FlexibleSlasherRoles
+        address slasher;
+        // OzAccessControl
+        address defaultAdmin;
+        // ProxyRewardRoles
+        address distributeStakerReward;
+        address distributeOperatorRewards;
+        // SelfRegisterOperators
+        string name;
+    }
 
+    constructor(InitParams memory params) {
+        initialize(params);
+    }
+
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
+        __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
+        __FlexibleSlasherRoles_init(params.slasher);
+        if (params.defaultAdmin != address(0)) {
+            __OzAccessControl_init(params.defaultAdmin);
+        }
+        __ProxyRewardRoles_init(params.distributeStakerReward, params.distributeOperatorRewards);
+        __SelfRegisterOperators_init(params.name);
+    }
+}
+
+contract WeightedRewardSubnetworkSlasherOperatorsTimestampCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    SubnetworkSlasherRoles,
+    Operators,
+    KeyManager256,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -918,17 +1100,22 @@ contract WeightedRewardSubnetworkSlasherOperatorsTimestampCaptureRolesMiddleware
         address defaultAdmin;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);
@@ -941,8 +1128,15 @@ contract WeightedRewardSubnetworkSlasherOperatorsTimestampCaptureRolesMiddleware
     }
 }
 
-contract WeightedRewardSubnetworkSlasherSelfRegisterOperatorsTimestampCaptureRolesMiddleware is WeightedRewardsRoles, SubnetworkSlasherRoles, SelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, TimestampCapture {
-
+contract WeightedRewardSubnetworkSlasherSelfRegisterOperatorsTimestampCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    SubnetworkSlasherRoles,
+    SelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -974,17 +1168,22 @@ contract WeightedRewardSubnetworkSlasherSelfRegisterOperatorsTimestampCaptureRol
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);
@@ -998,8 +1197,15 @@ contract WeightedRewardSubnetworkSlasherSelfRegisterOperatorsTimestampCaptureRol
     }
 }
 
-contract WeightedRewardSubnetworkSlasherForcePauseSelfRegisterOperatorsTimestampCaptureRolesMiddleware is WeightedRewardsRoles, SubnetworkSlasherRoles, ForcePauseSelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, TimestampCapture {
-
+contract WeightedRewardSubnetworkSlasherForcePauseSelfRegisterOperatorsTimestampCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    SubnetworkSlasherRoles,
+    ForcePauseSelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -1031,17 +1237,22 @@ contract WeightedRewardSubnetworkSlasherForcePauseSelfRegisterOperatorsTimestamp
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);
@@ -1055,8 +1266,14 @@ contract WeightedRewardSubnetworkSlasherForcePauseSelfRegisterOperatorsTimestamp
     }
 }
 
-contract WeightedRewardVaultSlasherOperatorsTimestampCaptureRolesMiddleware is WeightedRewardsRoles, VaultSlasherRoles, Operators, KeyManager256, EqualStakePower, TimestampCapture {
-
+contract WeightedRewardVaultSlasherOperatorsTimestampCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    VaultSlasherRoles,
+    Operators,
+    KeyManager256,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -1086,17 +1303,22 @@ contract WeightedRewardVaultSlasherOperatorsTimestampCaptureRolesMiddleware is W
         address defaultAdmin;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);
@@ -1108,8 +1330,15 @@ contract WeightedRewardVaultSlasherOperatorsTimestampCaptureRolesMiddleware is W
     }
 }
 
-contract WeightedRewardVaultSlasherSelfRegisterOperatorsTimestampCaptureRolesMiddleware is WeightedRewardsRoles, VaultSlasherRoles, SelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, TimestampCapture {
-
+contract WeightedRewardVaultSlasherSelfRegisterOperatorsTimestampCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    VaultSlasherRoles,
+    SelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -1141,17 +1370,22 @@ contract WeightedRewardVaultSlasherSelfRegisterOperatorsTimestampCaptureRolesMid
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);
@@ -1164,8 +1398,15 @@ contract WeightedRewardVaultSlasherSelfRegisterOperatorsTimestampCaptureRolesMid
     }
 }
 
-contract WeightedRewardVaultSlasherForcePauseSelfRegisterOperatorsTimestampCaptureRolesMiddleware is WeightedRewardsRoles, VaultSlasherRoles, ForcePauseSelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, TimestampCapture {
-
+contract WeightedRewardVaultSlasherForcePauseSelfRegisterOperatorsTimestampCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    VaultSlasherRoles,
+    ForcePauseSelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -1197,17 +1438,22 @@ contract WeightedRewardVaultSlasherForcePauseSelfRegisterOperatorsTimestampCaptu
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);
@@ -1220,8 +1466,14 @@ contract WeightedRewardVaultSlasherForcePauseSelfRegisterOperatorsTimestampCaptu
     }
 }
 
-contract WeightedRewardCommonSlasherOperatorsRolesTimestampCaptureMiddleware is WeightedRewardsRoles, CommonSlasherRoles, Operators, KeyManager256, EqualStakePower, TimestampCapture {
-
+contract WeightedRewardCommonSlasherOperatorsRolesTimestampCaptureMiddleware is
+    WeightedRewardsRoles,
+    CommonSlasherRoles,
+    Operators,
+    KeyManager256,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -1253,17 +1505,22 @@ contract WeightedRewardCommonSlasherOperatorsRolesTimestampCaptureMiddleware is 
         address defaultAdmin;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);
@@ -1277,8 +1534,15 @@ contract WeightedRewardCommonSlasherOperatorsRolesTimestampCaptureMiddleware is 
     }
 }
 
-contract WeightedRewardCommonSlasherSelfRegisterOperatorsTimestampCaptureRolesMiddleware is WeightedRewardsRoles, CommonSlasherRoles, SelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, TimestampCapture {
-
+contract WeightedRewardCommonSlasherSelfRegisterOperatorsTimestampCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    CommonSlasherRoles,
+    SelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -1312,17 +1576,22 @@ contract WeightedRewardCommonSlasherSelfRegisterOperatorsTimestampCaptureRolesMi
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);
@@ -1337,8 +1606,15 @@ contract WeightedRewardCommonSlasherSelfRegisterOperatorsTimestampCaptureRolesMi
     }
 }
 
-contract WeightedRewardCommonSlasherForcePauseSelfRegisterOperatorsTimestampCaptureRolesMiddleware is WeightedRewardsRoles, CommonSlasherRoles, ForcePauseSelfRegisterOperators, KeyManager256, ECDSASig, EqualStakePower, TimestampCapture {
-
+contract WeightedRewardCommonSlasherForcePauseSelfRegisterOperatorsTimestampCaptureRolesMiddleware is
+    WeightedRewardsRoles,
+    CommonSlasherRoles,
+    ForcePauseSelfRegisterOperators,
+    KeyManager256,
+    ECDSASig,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitParams {
         // BaseMiddleware
         address network;
@@ -1372,17 +1648,22 @@ contract WeightedRewardCommonSlasherForcePauseSelfRegisterOperatorsTimestampCapt
         string name;
     }
 
-    constructor(
-        InitParams memory params
-    ) {
+    constructor(InitParams memory params) {
         initialize(params);
     }
 
-    function initialize(
-        InitParams memory params
-    ) internal initializer {
-        __BaseMiddleware_init(params.network, params.slashingWindow, params.vaultRegistry, params.operatorRegistry, params.operatorNetOptin, params.reader);
-        __BaseDefaultStakerRewardsManager_init(params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry);
+    function initialize(InitParams memory params) internal initializer {
+        __BaseMiddleware_init(
+            params.network,
+            params.slashingWindow,
+            params.vaultRegistry,
+            params.operatorRegistry,
+            params.operatorNetOptin,
+            params.reader
+        );
+        __BaseDefaultStakerRewardsManager_init(
+            params.vaults, params.stakerRewardsDistributors, params.stakerRewardsRegistry
+        );
         __BaseDefaultRewardsManager_init(params.operatorRewardsDistributor, params.operatorRewardsRegistry);
         __RewardWeightProviderStorage_init(params.rewardWeightProvider);
         __WeightedRewardsRoles_init(params.distributeRewards);

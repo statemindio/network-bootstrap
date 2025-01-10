@@ -315,8 +315,13 @@ contract WeightedRewardsTest is DefaultRewardsBaseTest {
     }
 }
 
-contract TestNetworkMiddleware is WeightedRewardsRoles, SharedVaults, NoKeyManager, EqualStakePower, TimestampCapture {
-
+contract TestNetworkMiddleware is
+    WeightedRewardsRoles,
+    SharedVaults,
+    NoKeyManager,
+    EqualStakePower,
+    TimestampCapture
+{
     struct InitializeParams {
         address network;
         uint48 slashingWindow;
@@ -358,7 +363,6 @@ contract TestNetworkMiddleware is WeightedRewardsRoles, SharedVaults, NoKeyManag
 }
 
 contract FakeWeightProvider is IWeightProvider {
-
     uint64 public constant TYPE = 1;
 
     function getWeightsAndTotal(

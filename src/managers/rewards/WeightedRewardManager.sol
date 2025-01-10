@@ -141,11 +141,13 @@ abstract contract WeightedRewardManager is
             return data.timestamp;
         }
         if (providerType == 2) {
-            AmountActiveStakeWeightProvider.AmountWPData memory data = abi.decode(rawData, (AmountActiveStakeWeightProvider.AmountWPData));
+            AmountActiveStakeWeightProvider.AmountWPData memory data =
+                abi.decode(rawData, (AmountActiveStakeWeightProvider.AmountWPData));
             return data.timestamp;
         }
         if (providerType == 3) {
-            ValueActiveStakeWeightProvider.ValueWPData memory data = abi.decode(rawData, (ValueActiveStakeWeightProvider.ValueWPData));
+            ValueActiveStakeWeightProvider.ValueWPData memory data =
+                abi.decode(rawData, (ValueActiveStakeWeightProvider.ValueWPData));
             return data.timestamp;
         }
         revert UnknownWeightProviderType();

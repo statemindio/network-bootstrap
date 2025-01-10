@@ -48,9 +48,9 @@ abstract contract BaseDefaultOperatorRewardsManager is Initializable {
     }
 
     function _getBaseDefaultOperatorRewardsManagerStorage()
-    internal
-    pure
-    returns (BaseDefaultOperatorRewardsManagerStorage storage $)
+        internal
+        pure
+        returns (BaseDefaultOperatorRewardsManagerStorage storage $)
     {
         assembly {
             $.slot := BaseDefaultOperatorRewardsManagerStorageLocation
@@ -59,7 +59,6 @@ abstract contract BaseDefaultOperatorRewardsManager is Initializable {
 }
 
 abstract contract BaseDefaultOperatorRewardsManagerReader is BaseDefaultOperatorRewardsManager {
-
     function operatorRewardsDistributor() public view returns (address) {
         return _operatorRewardsDistributor();
     }

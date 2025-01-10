@@ -18,7 +18,7 @@ contract MockVault {
         _activeStakeAt[timestamp] = activeStakeAt_;
     }
 
-    function activeStakeAt(uint48 timestamp, bytes memory /*hint*/) external view returns (uint256) {
+    function activeStakeAt(uint48 timestamp, bytes memory /*hint*/ ) external view returns (uint256) {
         return _activeStakeAt[timestamp];
     }
 }

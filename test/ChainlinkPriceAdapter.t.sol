@@ -15,8 +15,10 @@ contract ChainlinkPriceAdapterTest is Test {
 
     uint256 mainnetFork;
 
-    function _setUp(uint blockNumber) internal {
-        mainnetFork = blockNumber == 0 ? vm.createFork(vm.envString("ETH_MAINNET_RPC_URL")) : vm.createFork(vm.envString("ETH_MAINNET_RPC_URL"), blockNumber);
+    function _setUp(uint256 blockNumber) internal {
+        mainnetFork = blockNumber == 0
+            ? vm.createFork(vm.envString("ETH_MAINNET_RPC_URL"))
+            : vm.createFork(vm.envString("ETH_MAINNET_RPC_URL"), blockNumber);
         vm.selectFork(mainnetFork);
 
         usdeUsdAdapter =
@@ -65,64 +67,64 @@ contract ChainlinkPriceAdapterTest is Test {
     }
 
     function test_ChainlinkAdapterLatestRoundInNewestPhase() public {
-        _setUp(21444132);
+        _setUp(21_444_132);
         uint80 roundId = uint80(usdeAggregator.latestRound()); // 36893488147419103394
         bytes memory data = abi.encode(roundId);
 
         uint256 priceFromAdapter = usdeUsdAdapter.getPriceAt(usdeAggregator.latestTimestamp(), data);
 
         // latestAnswer for block 21444132
-        assertEq(priceFromAdapter, 99746544);
+        assertEq(priceFromAdapter, 99_746_544);
     }
 
     function test_ChainlinkAdapterPreviousRoundInNewestPhaseNow() public {
-        _setUp(21444132);
+        _setUp(21_444_132);
         uint80 roundId = uint80((usdeAggregator.latestRound() - 1));
         bytes memory data = abi.encode(roundId);
         // updatedAt == 1734598847 for 36893488147419103393 roundId
-        uint256 priceFromAdapter = usdeUsdAdapter.getPriceAt(1734598847, data);
+        uint256 priceFromAdapter = usdeUsdAdapter.getPriceAt(1_734_598_847, data);
 
-        assertEq(priceFromAdapter, 100046450);
+        assertEq(priceFromAdapter, 100_046_450);
     }
 
     function test_ChainlinkAdapterPreviousRoundInNewestPhaseTimestampFromFuture() public {
-        _setUp(21444132);
+        _setUp(21_444_132);
         uint80 roundId = uint80((usdeAggregator.latestRound() - 1));
         bytes memory data = abi.encode(roundId);
         // updatedAt == 1734598847 for 36893488147419103393 roundId
-        uint256 priceFromAdapter = usdeUsdAdapter.getPriceAt(1734598847 + 1, data);
+        uint256 priceFromAdapter = usdeUsdAdapter.getPriceAt(1_734_598_847 + 1, data);
 
-        assertEq(priceFromAdapter, 100046450);
+        assertEq(priceFromAdapter, 100_046_450);
     }
 
     function test_ChainlinkAdapterPreviousRoundInNewestPhaseTimestampFromPast() public {
-        _setUp(21444132);
+        _setUp(21_444_132);
         uint80 roundId = uint80((usdeAggregator.latestRound() - 1));
         bytes memory data = abi.encode(roundId);
         vm.expectRevert(BaseChainlinkPriceAdapter.InvalidHistoricalData.selector);
         // updatedAt == 1734598847 for 36893488147419103393 roundId
-        usdeUsdAdapter.getPriceAt(1734598847 - 1, data);
+        usdeUsdAdapter.getPriceAt(1_734_598_847 - 1, data);
     }
 
     function test_ChainlinkAdapterLatestRoundInPreviousPhase() public {
-        _setUp(21444132);
-//         0xE62B71cf983019BFf55bC83B48601ce8419650CC(phase 6 contract) latestRound = 23751
-        uint80 roundId = uint80(uint256(6) << 64 | 23751);
+        _setUp(21_444_132);
+        //         0xE62B71cf983019BFf55bC83B48601ce8419650CC(phase 6 contract) latestRound = 23751
+        uint80 roundId = uint80(uint256(6) << 64 | 23_751);
         bytes memory data = abi.encode(roundId);
         vm.expectRevert(BaseChainlinkPriceAdapter.InvalidHistoricalData.selector);
-        ethUsdAdapter.getPriceAt(1727704523, data);
+        ethUsdAdapter.getPriceAt(1_727_704_523, data);
     }
 
     function test_ChainlinkAdapterPreviousRoundInPreviousPhase() public {
-        _setUp(21444132);
-        uint80 roundId = uint80(uint256(6) << 64 | 23751) - 1;
+        _setUp(21_444_132);
+        uint80 roundId = uint80(uint256(6) << 64 | 23_751) - 1;
         bytes memory data = abi.encode(roundId);
         // previousRound updatedAt = 1727700935
-        uint256 priceFromAdapter = ethUsdAdapter.getPriceAt(1727700935, data);
-        assertEq(priceFromAdapter, 263455732377);
+        uint256 priceFromAdapter = ethUsdAdapter.getPriceAt(1_727_700_935, data);
+        assertEq(priceFromAdapter, 263_455_732_377);
 
         // latestRound updatedAt = 1727704523
-        priceFromAdapter = ethUsdAdapter.getPriceAt(1727704523 - 1, data);
-        assertEq(priceFromAdapter, 263455732377);
+        priceFromAdapter = ethUsdAdapter.getPriceAt(1_727_704_523 - 1, data);
+        assertEq(priceFromAdapter, 263_455_732_377);
     }
 }

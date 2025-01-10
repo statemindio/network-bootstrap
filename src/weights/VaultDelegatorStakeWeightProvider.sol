@@ -68,7 +68,8 @@ contract VaultDelegatorStakeWeightProvider is IWeightProvider {
                 if (data.timestamp == block.timestamp || data.timestamp == type(uint48).max) {
                     price = IPriceProvider(PRICE_PROVIDER).getPrice(vaultToken, data.priceProviderData[i]);
                 } else {
-                    price = IPriceProvider(PRICE_PROVIDER).getPriceAt(vaultToken, data.timestamp, data.priceProviderData[i]);
+                    price =
+                        IPriceProvider(PRICE_PROVIDER).getPriceAt(vaultToken, data.timestamp, data.priceProviderData[i]);
                 }
                 stakeAmount = Math.mulDiv(stakeAmount, price, 10 ** IPriceProvider(PRICE_PROVIDER).decimals(vaultToken));
             }

@@ -40,9 +40,7 @@ abstract contract SubnetworkSlasher is BaseSlasher, SlashVaultWeightProviderStor
      * @param priceProviderData data for price provider
      * @return A struct SlashResponse containing information about the slash response.
      */
-    function slash(
-        SlashParams memory params
-    ) public checkAccess {
+    function slash(SlashParams memory params) public checkAccess {
         address operator = getOperatorAndCheckCanSlash(params.key, params.timestamp);
 
         if (!_subnetworkWasActiveAt(params.timestamp, params.subnetwork.identifier())) {
@@ -70,8 +68,12 @@ abstract contract SubnetworkSlasher is BaseSlasher, SlashVaultWeightProviderStor
         {
             bytes32[] memory subnetworks_ = new bytes32[](1);
             subnetworks_[0] = params.subnetwork;
-            bytes memory wpData = WPDataComposer.composeWPData(_slashVaultWeightProvider(), params.timestamp, operator, vaults, subnetworks_, params.wpDataParams);
-            (weights, totalWeight) = IWeightProvider(_slashVaultWeightProvider()).getWeightsAndTotal(MathConvert.convertAddressArrayToBytes32Array(vaults), wpData);
+            bytes memory wpData = WPDataComposer.composeWPData(
+                _slashVaultWeightProvider(), params.timestamp, operator, vaults, subnetworks_, params.wpDataParams
+            );
+            (weights, totalWeight) = IWeightProvider(_slashVaultWeightProvider()).getWeightsAndTotal(
+                MathConvert.convertAddressArrayToBytes32Array(vaults), wpData
+            );
         }
 
         if (weights.length != vaults.length) {
@@ -92,7 +94,9 @@ abstract contract SubnetworkSlasher is BaseSlasher, SlashVaultWeightProviderStor
         }
 
         if (multiToken) {
-            slashAmounts = MathConvert.convertToVaultsCollateral(vaults, slashAmounts, _priceProvider(), params.priceProviderData, params.timestamp);
+            slashAmounts = MathConvert.convertToVaultsCollateral(
+                vaults, slashAmounts, _priceProvider(), params.priceProviderData, params.timestamp
+            );
         }
 
         for (uint256 i; i < vaults.length; ++i) {

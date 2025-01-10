@@ -9,7 +9,7 @@ abstract contract RewardWeightProviderStorage is WeightProviderStorage {
 
     // keccak256(abi.encode(uint256(keccak256("statemind.storage.WeightProviderStorage.rewardWeightProvider")) - 1)) & ~bytes32(uint256(0xff))
     bytes32 private constant RewardWeightProviderStorageLocation =
-    0x4423cc4749f187f556c2cf57bfa668c17041e10377239b7f03142dc42480f800;
+        0x4423cc4749f187f556c2cf57bfa668c17041e10377239b7f03142dc42480f800;
 
     function __RewardWeightProviderStorage_init(address weightProvider) internal onlyInitializing {
         _setRewardWeightProvider(weightProvider);
@@ -29,7 +29,6 @@ abstract contract RewardWeightProviderStorage is WeightProviderStorage {
 }
 
 abstract contract RewardWeightProviderStorageReader is RewardWeightProviderStorage {
-
     function rewardWeightProvider() public view returns (address) {
         return _rewardWeightProvider();
     }

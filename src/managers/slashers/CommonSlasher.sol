@@ -5,13 +5,21 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {Subnetwork} from "@symbioticfi/core/src/contracts/libraries/Subnetwork.sol";
 import {IVault} from "@symbioticfi/core/src/interfaces/vault/IVault.sol";
 import {BaseSlasher} from "./BaseSlasher.sol";
-import {SlashVaultWeightProviderStorage, SlashSubnetworkWeightProviderStorage} from "../storages/SlashWeightProviderStorage.sol";
+import {
+    SlashVaultWeightProviderStorage,
+    SlashSubnetworkWeightProviderStorage
+} from "../storages/SlashWeightProviderStorage.sol";
 import {PriceProviderStorage} from "../storages/PriceProviderStorage.sol";
 import {IWeightProvider} from "../../interfaces/weights/IWeightProvider.sol";
 import {WPDataComposer} from "../../libs/WPDataComposer.sol";
 import {MathConvert} from "../../libs/MathConvert.sol";
 
-abstract contract CommonSlasher is BaseSlasher, SlashVaultWeightProviderStorage, SlashSubnetworkWeightProviderStorage, PriceProviderStorage {
+abstract contract CommonSlasher is
+    BaseSlasher,
+    SlashVaultWeightProviderStorage,
+    SlashSubnetworkWeightProviderStorage,
+    PriceProviderStorage
+{
     using Subnetwork for address;
 
     error InvalidVaultWeightsLength();
@@ -39,9 +47,7 @@ abstract contract CommonSlasher is BaseSlasher, SlashVaultWeightProviderStorage,
      * @param distributionData Data for distribution (stake hints for proportional distribution or wpData for weighted distribution)
      * @return A struct SlashResponse containing information about the slash response.
      */
-    function slash(
-        SlashParams calldata params
-    ) public checkAccess {
+    function slash(SlashParams calldata params) public checkAccess {
         address operator = getOperatorAndCheckCanSlash(params.key, params.timestamp);
 
         address[] memory vaults = _activeVaultsAt(params.timestamp, operator);
@@ -70,8 +76,12 @@ abstract contract CommonSlasher is BaseSlasher, SlashVaultWeightProviderStorage,
         uint256[] memory vaultWeights;
         uint256 vaultTotalWeight;
         {
-            bytes memory vaultWPData = WPDataComposer.composeWPData(_slashVaultWeightProvider(), params.timestamp, operator, vaults, _subnetworks, params.vaultWPDataParams);
-            (vaultWeights, vaultTotalWeight) = IWeightProvider(_slashVaultWeightProvider()).getWeightsAndTotal(MathConvert.convertAddressArrayToBytes32Array(vaults), vaultWPData);
+            bytes memory vaultWPData = WPDataComposer.composeWPData(
+                _slashVaultWeightProvider(), params.timestamp, operator, vaults, _subnetworks, params.vaultWPDataParams
+            );
+            (vaultWeights, vaultTotalWeight) = IWeightProvider(_slashVaultWeightProvider()).getWeightsAndTotal(
+                MathConvert.convertAddressArrayToBytes32Array(vaults), vaultWPData
+            );
         }
         if (vaultWeights.length != vaults.length) {
             revert InvalidVaultWeightsLength();
@@ -91,7 +101,9 @@ abstract contract CommonSlasher is BaseSlasher, SlashVaultWeightProviderStorage,
         }
 
         if (multiToken) {
-            vaultSlashAmounts = MathConvert.convertToVaultsCollateral(vaults, vaultSlashAmounts, _priceProvider(), params.priceProviderData, params.timestamp);
+            vaultSlashAmounts = MathConvert.convertToVaultsCollateral(
+                vaults, vaultSlashAmounts, _priceProvider(), params.priceProviderData, params.timestamp
+            );
         }
 
         lastIndex = _subnetworks.length - 1;
@@ -100,9 +112,17 @@ abstract contract CommonSlasher is BaseSlasher, SlashVaultWeightProviderStorage,
             {
                 address[] memory vaultArray_ = new address[](1);
                 vaultArray_[0] = vaults[i];
-                wpData = WPDataComposer.composeWPData(_slashSubnetworkWeightProvider(), params.timestamp, operator, vaultArray_, _subnetworks, params.subnetworksWPDataParams[i]);
+                wpData = WPDataComposer.composeWPData(
+                    _slashSubnetworkWeightProvider(),
+                    params.timestamp,
+                    operator,
+                    vaultArray_,
+                    _subnetworks,
+                    params.subnetworksWPDataParams[i]
+                );
             }
-            (uint256[] memory subnetworkWeights, uint256 subnetworkTotalWeight) = IWeightProvider(_slashSubnetworkWeightProvider()).getWeightsAndTotal(_subnetworks, wpData);
+            (uint256[] memory subnetworkWeights, uint256 subnetworkTotalWeight) =
+                IWeightProvider(_slashSubnetworkWeightProvider()).getWeightsAndTotal(_subnetworks, wpData);
 
             if (subnetworkWeights.length != _subnetworks.length) {
                 revert InvalidSubnetworkWeightsLength();
@@ -116,7 +136,9 @@ abstract contract CommonSlasher is BaseSlasher, SlashVaultWeightProviderStorage,
                     subnetworkAmount = vaultSlashAmounts[i] - subnetworkUsedAmount;
                 }
                 subnetworkUsedAmount += subnetworkAmount;
-                _slashVault(params.timestamp, vaults[i], _subnetworks[i], operator, subnetworkAmount, params.slashHints[i][j]);
+                _slashVault(
+                    params.timestamp, vaults[i], _subnetworks[i], operator, subnetworkAmount, params.slashHints[i][j]
+                );
             }
         }
     }

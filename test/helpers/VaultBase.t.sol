@@ -151,7 +151,7 @@ contract VaultBaseTest is Test {
                         isDepositLimitSetRoleHolder: alice,
                         depositLimitSetRoleHolder: alice
                     })
-                    ),
+                ),
                 delegatorIndex: 0,
                 delegatorParams: abi.encode(
                     INetworkRestakeDelegator.InitParams({
@@ -163,7 +163,7 @@ contract VaultBaseTest is Test {
                         networkLimitSetRoleHolders: networkLimitSetRoleHolders,
                         operatorNetworkSharesSetRoleHolders: operatorNetworkSharesSetRoleHolders
                     })
-                    ),
+                ),
                 withSlasher: false,
                 slasherIndex: 0,
                 slasherParams: abi.encode(ISlasher.InitParams({baseParams: IBaseSlasher.BaseParams({isBurnerHook: false})}))
@@ -196,7 +196,7 @@ contract VaultBaseTest is Test {
                         isDepositLimitSetRoleHolder: alice,
                         depositLimitSetRoleHolder: alice
                     })
-                    ),
+                ),
                 delegatorIndex: 0,
                 delegatorParams: abi.encode(
                     INetworkRestakeDelegator.InitParams({
@@ -208,7 +208,7 @@ contract VaultBaseTest is Test {
                         networkLimitSetRoleHolders: networkLimitSetRoleHolders,
                         operatorNetworkSharesSetRoleHolders: operatorNetworkSharesSetRoleHolders
                     })
-                    ),
+                ),
                 withSlasher: false,
                 slasherIndex: 0,
                 slasherParams: abi.encode(ISlasher.InitParams({baseParams: IBaseSlasher.BaseParams({isBurnerHook: false})}))
@@ -242,7 +242,7 @@ contract VaultBaseTest is Test {
                         isDepositLimitSetRoleHolder: alice,
                         depositLimitSetRoleHolder: alice
                     })
-                    ),
+                ),
                 delegatorIndex: 0,
                 delegatorParams: abi.encode(
                     INetworkRestakeDelegator.InitParams({
@@ -254,7 +254,7 @@ contract VaultBaseTest is Test {
                         networkLimitSetRoleHolders: networkLimitSetRoleHolders,
                         operatorNetworkSharesSetRoleHolders: operatorNetworkSharesSetRoleHolders
                     })
-                    ),
+                ),
                 withSlasher: true,
                 slasherIndex: 0,
                 slasherParams: abi.encode(ISlasher.InitParams({baseParams: IBaseSlasher.BaseParams({isBurnerHook: false})}))

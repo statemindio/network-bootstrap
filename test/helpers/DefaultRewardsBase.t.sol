@@ -264,7 +264,11 @@ contract DefaultRewardsBaseTest is Test {
         return vault_;
     }
 
-    function defaultNetworkRestakeDelegatorParams() internal view returns (uint64 delegatorIndex, bytes memory delegatorParams) {
+    function defaultNetworkRestakeDelegatorParams()
+        internal
+        view
+        returns (uint64 delegatorIndex, bytes memory delegatorParams)
+    {
         address[] memory networkLimitSetRoleHolders = new address[](1);
         networkLimitSetRoleHolders[0] = alice;
         address[] memory operatorNetworkSharesSetRoleHolders = new address[](1);
@@ -274,27 +278,31 @@ contract DefaultRewardsBaseTest is Test {
         delegatorParams = abi.encode(
             INetworkRestakeDelegator.InitParams({
                 baseParams: IBaseDelegator.BaseParams({
-                defaultAdminRoleHolder: alice,
-                hook: address(0),
-                hookSetRoleHolder: alice
-            }),
+                    defaultAdminRoleHolder: alice,
+                    hook: address(0),
+                    hookSetRoleHolder: alice
+                }),
                 networkLimitSetRoleHolders: networkLimitSetRoleHolders,
                 operatorNetworkSharesSetRoleHolders: operatorNetworkSharesSetRoleHolders
             })
         );
     }
 
-    function defaultOperatorSpecificDelegatorParams() internal view returns (uint64 delegatorIndex, bytes memory delegatorParams) {
+    function defaultOperatorSpecificDelegatorParams()
+        internal
+        view
+        returns (uint64 delegatorIndex, bytes memory delegatorParams)
+    {
         address[] memory networkLimitSetRoleHolders = new address[](1);
         networkLimitSetRoleHolders[0] = alice;
         delegatorIndex = 2;
         delegatorParams = abi.encode(
             IOperatorSpecificDelegator.InitParams({
                 baseParams: IBaseDelegator.BaseParams({
-                defaultAdminRoleHolder: alice,
-                hook: address(0),
-                hookSetRoleHolder: alice
-            }),
+                    defaultAdminRoleHolder: alice,
+                    hook: address(0),
+                    hookSetRoleHolder: alice
+                }),
                 networkLimitSetRoleHolders: networkLimitSetRoleHolders,
                 operator: operator
             })

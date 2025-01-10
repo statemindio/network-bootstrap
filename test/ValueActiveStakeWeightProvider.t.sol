@@ -292,5 +292,4 @@ contract ValueActiveStakeWeightProviderTest is VaultBaseTest {
         vault.setCollateral(collateral);
         return address(vault);
     }
-
 }

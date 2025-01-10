@@ -26,7 +26,6 @@ contract ValueActiveStakeWeightProvider is IWeightProvider {
 
     uint64 public constant TYPE = 3;
 
-
     constructor(address priceProvider_, uint8 stakeDecimals) {
         STAKE_DECIMALS = stakeDecimals;
         if (priceProvider_ == address(0)) {
@@ -67,8 +66,7 @@ contract ValueActiveStakeWeightProvider is IWeightProvider {
                 price = IPriceProvider(PRICE_PROVIDER).getPrice(vaultToken, data.priceProviderData[i]);
             } else {
                 stakeAmount = IVault(vault).activeStakeAt(data.timestamp, data.activeStakeAtHints[i]);
-                price =
-                    IPriceProvider(PRICE_PROVIDER).getPriceAt(vaultToken, data.timestamp, data.priceProviderData[i]);
+                price = IPriceProvider(PRICE_PROVIDER).getPriceAt(vaultToken, data.timestamp, data.priceProviderData[i]);
             }
             stakeAmount = MathDecimals.normalizeTo(stakeAmount, IERC20Metadata(vaultToken).decimals(), STAKE_DECIMALS);
             uint256 valueInBaseCurrency = stakeAmount * price;

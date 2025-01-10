@@ -5,7 +5,10 @@ import {SlashVaultWeightProvider, SlashSubnetworkWeightProvider} from "./SlashWe
 import {OzAccessControl} from "@symbioticfi/middleware-sdk/extensions/managers/access/OzAccessControl.sol";
 
 abstract contract SlashVaultWeightProviderRoles is SlashVaultWeightProvider, OzAccessControl {
-    function __SlashVaultWeightProviderHolderRoles_init(address setSlashVaultWeightProvider) internal onlyInitializing {
+    function __SlashVaultWeightProviderHolderRoles_init(address setSlashVaultWeightProvider)
+        internal
+        onlyInitializing
+    {
         bytes4 setSlashVaultWeightProviderSelector = SlashVaultWeightProvider.setSlashVaultWeightProvider.selector;
         _setSelectorRole(setSlashVaultWeightProviderSelector, setSlashVaultWeightProviderSelector);
         _grantRole(setSlashVaultWeightProviderSelector, setSlashVaultWeightProvider);
@@ -13,8 +16,12 @@ abstract contract SlashVaultWeightProviderRoles is SlashVaultWeightProvider, OzA
 }
 
 abstract contract SlashSubnetworkWeightProviderRoles is SlashSubnetworkWeightProvider, OzAccessControl {
-    function __SlashSubnetworkWeightProviderHolderRoles_init(address setSlashSubnetworkWeightProvider) internal onlyInitializing {
-        bytes4 setSlashSubnetworkWeightProviderSelector = SlashSubnetworkWeightProvider.setSlashSubnetworkWeightProvider.selector;
+    function __SlashSubnetworkWeightProviderHolderRoles_init(address setSlashSubnetworkWeightProvider)
+        internal
+        onlyInitializing
+    {
+        bytes4 setSlashSubnetworkWeightProviderSelector =
+            SlashSubnetworkWeightProvider.setSlashSubnetworkWeightProvider.selector;
         _setSelectorRole(setSlashSubnetworkWeightProviderSelector, setSlashSubnetworkWeightProviderSelector);
         _grantRole(setSlashSubnetworkWeightProviderSelector, setSlashSubnetworkWeightProvider);
     }

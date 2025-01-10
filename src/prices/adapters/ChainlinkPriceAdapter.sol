@@ -28,14 +28,15 @@ contract ChainlinkPriceAdapter is BaseChainlinkPriceAdapter {
     }
 
     function getPrice(bytes memory) external view override returns (uint256) {
-        (uint price, uint8 feedDecimals) = _getLatestPrice(AggregatorV2V3Interface(priceFeed), heartBeat);
+        (uint256 price, uint8 feedDecimals) = _getLatestPrice(AggregatorV2V3Interface(priceFeed), heartBeat);
         return _normalizePrice(price, feedDecimals);
     }
 
     function getPriceAt(uint256 timestamp, bytes memory data) external view override returns (uint256) {
         uint80 roundId = abi.decode(data, (uint80));
 
-        (uint price, uint8 feedDecimals) = _verifyTimestampAndGetPrice(AggregatorV2V3Interface(priceFeed), timestamp, roundId);
+        (uint256 price, uint8 feedDecimals) =
+            _verifyTimestampAndGetPrice(AggregatorV2V3Interface(priceFeed), timestamp, roundId);
         return _normalizePrice(price, feedDecimals);
     }
 }
