@@ -1,0 +1,32 @@
+{
+  "name": "@statemind/network-bootstrap-tests",
+  "version": "1.0.0-rc",
+  "private": true,
+  "description": "Test scripts for network bootstrap library",
+  "homepage": "https://statemind.io/",
+  "bugs": "https://github.com/statemind/network-bootstrap/issues",
+  "license": "MIT",
+  "author": "Statemind Team",
+  "files": [
+    "src/**/*",
+    "test/mocks/**/*",
+    "test/scripts/*",
+    "out/**/*.json",
+    "cli/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/statemind/network-bootstrap.git"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart",
+    "contracts",
+    "security"
+  ],
+  "dependencies": {
+    "@redstone-finance/evm-connector": "^0.6.2",
+    "ethers": "^5.7.2"
+  }
+}
