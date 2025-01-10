@@ -1,0 +1,8 @@
+forge-std/=lib/forge-std/src/
+@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/
+@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
+@symbioticfi/core/=lib/core/
+@symbioticfi/rewards/=lib/rewards/
+@redstone-finance/evm-connector/contracts/=lib/redstone-oracles-monorepo/packages/evm-connector/contracts/
+@symbioticfi/middleware-sdk/=lib/middleware-sdk/src/
+@symbioticfi-test/core/=lib/core/test/

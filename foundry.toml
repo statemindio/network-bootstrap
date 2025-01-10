@@ -1,2 +1,43 @@
-[profile.ci.fuzz]
-runs = 10_000
+[profile.default]
+solc-version = "0.8.25"
+via_ir = true
+src = "src"
+out = "out"
+libs = ["lib"]
+fs_permissions = [{ access = "read-write", path = "./"}]
+gas_reports = ["*"]
+ffi = true
+
+# https://book.getfoundry.sh/reference/config/solidity-compiler?highlight=ignore#ignored_warnings_from
+# Ignores warning from dependencies.
+ignored_warnings_from = [
+    "lib/core/src/contracts/common/MigratableEntityProxy.sol",
+    "lib/core/src/contracts/vault/Vault.sol",
+    "lib/core/src/contracts/slasher/Slasher.sol",
+    "lib/middleware-sdk/src/extensions/managers/stake-powers/EqualStakePower.sol",
+    "lib/rewards/lib/core/src/contracts/slasher/Slasher.sol",
+    "lib/rewards/lib/core/src/contracts/common/MigratableEntityProxy.sol",
+    "lib/rewards/lib/core/src/contracts/vault/Vault.sol",
+    "lib/openzeppelin-contracts-upgradeable/contracts/utils/ReentrancyGuardUpgradeable.sol",
+    "lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol",
+    "lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/proxy/Proxy.sol",
+]
+deny_warnings = true
+
+[rpc_endpoints]
+mainnet = "${ETH_MAINNET_RPC_URL}"
+
+[fmt]
+bracket_spacing = false
+int_types = "long"
+line_length = 120
+multiline_func_header = "params_first"
+number_underscore = "thousands"
+quote_style = "double"
+tab_width = 4
+
+[fuzz]
+runs = 4096
+max_test_rejects = 262144
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
