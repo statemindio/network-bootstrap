@@ -17,17 +17,22 @@ contract RedstonePriceAdapter is BaseOracle, PrimaryProdDataServiceConsumerBase 
     // Redstone price feeds have 8 decimals by default, however certain exceptions exist.
     uint8 public immutable feedDecimals;
 
-    constructor(bytes32 _feedId, address _baseCurrency, uint256 _priceWindow, uint8 _feedDecimals) BaseOracle(_baseCurrency) {
+    constructor(
+        bytes32 _feedId,
+        address _baseCurrency,
+        uint256 _priceWindow,
+        uint8 _feedDecimals
+    ) BaseOracle(_baseCurrency) {
         feedId = _feedId;
         priceWindow = _priceWindow;
         feedDecimals = _feedDecimals;
     }
 
-    function getPrice(bytes memory /*data*/) external view override returns (uint256) {
+    function getPrice(bytes memory /*data*/ ) external view override returns (uint256) {
         return _normalizePrice(getOracleNumericValueFromTxMsg(feedId), feedDecimals);
     }
 
-    function getPriceAt(uint256 timestamp, bytes memory /*data*/) external view override returns (uint256) {
+    function getPriceAt(uint256 timestamp, bytes memory /*data*/ ) external view override returns (uint256) {
         bytes32[] memory feedIds = new bytes32[](1);
         feedIds[0] = feedId;
 

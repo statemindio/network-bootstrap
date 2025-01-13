@@ -19,7 +19,7 @@ abstract contract BaseOracle is IPriceAdapter {
         return 8;
     }
 
-    function _normalizePrice(uint256 price, uint8 priceFeedDecimals) internal pure returns(uint256 normalizedPrice){
+    function _normalizePrice(uint256 price, uint8 priceFeedDecimals) internal pure returns (uint256 normalizedPrice) {
         normalizedPrice = price.normalizeTo(priceFeedDecimals, decimals());
         if (normalizedPrice == 0) {
             revert ZeroPrice();

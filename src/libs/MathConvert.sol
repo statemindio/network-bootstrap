@@ -53,11 +53,10 @@ library MathConvert {
         return result;
     }
 
-    function convertSubnetworksArrayToBytes32Array(address network, uint160[] memory _subnetworks)
-        internal
-        pure
-        returns (bytes32[] memory)
-    {
+    function convertSubnetworksArrayToBytes32Array(
+        address network,
+        uint160[] memory _subnetworks
+    ) internal pure returns (bytes32[] memory) {
         bytes32[] memory result = new bytes32[](_subnetworks.length);
         for (uint256 i = 0; i < _subnetworks.length; i++) {
             result[i] = Subnetwork.subnetwork(network, uint96(_subnetworks[i]));
