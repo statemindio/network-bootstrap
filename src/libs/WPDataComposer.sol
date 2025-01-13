@@ -6,8 +6,8 @@ import {IConfigWeightProvider} from "../interfaces/weights/IConfigWeightProvider
 import {IAmountActiveStakeWeightProvider} from "../interfaces/weights/IAmountActiveStakeWeightProvider.sol";
 import {IValueActiveStakeWeightProvider} from "../interfaces/weights/IValueActiveStakeWeightProvider.sol";
 import {IVaultDelegatorStakeWeightProvider} from "../interfaces/weights/IVaultDelegatorStakeWeightProvider.sol";
-import {ISubnetworkDelegatorStakeWeightProvider} from "../interfaces/weights/ISubnetworkDelegatorStakeWeightProvider.sol";
-
+import {ISubnetworkDelegatorStakeWeightProvider} from
+    "../interfaces/weights/ISubnetworkDelegatorStakeWeightProvider.sol";
 
 library WPDataComposer {
     error RequireSingleVault();
@@ -69,7 +69,8 @@ library WPDataComposer {
             wpDataStruct.priceProviderData = wpDataParamsStruct.priceProviderData;
             wpData = abi.encode(wpDataStruct);
         } else if (wpType == 4) {
-            VaultDelegatorStakeWPDataParams memory wpDataParamsStruct = abi.decode(wpDataParams, (VaultDelegatorStakeWPDataParams));
+            VaultDelegatorStakeWPDataParams memory wpDataParamsStruct =
+                abi.decode(wpDataParams, (VaultDelegatorStakeWPDataParams));
             IVaultDelegatorStakeWeightProvider.VaultDelegatorStakeWPData memory wpDataStruct;
             wpDataStruct.operator = operator;
             wpDataStruct.timestamp = timestamp;
@@ -78,7 +79,8 @@ library WPDataComposer {
             wpDataStruct.priceProviderData = wpDataParamsStruct.priceProviderData;
             wpData = abi.encode(wpDataStruct);
         } else if (wpType == 5) {
-            SubnetworkDelegatorStakeWPDataParams memory wpDataParamsStruct = abi.decode(wpDataParams, (SubnetworkDelegatorStakeWPDataParams));
+            SubnetworkDelegatorStakeWPDataParams memory wpDataParamsStruct =
+                abi.decode(wpDataParams, (SubnetworkDelegatorStakeWPDataParams));
             ISubnetworkDelegatorStakeWeightProvider.SubnetworkDelegatorStakeWPData memory wpDataStruct;
             wpDataStruct.operator = operator;
             wpDataStruct.timestamp = timestamp;

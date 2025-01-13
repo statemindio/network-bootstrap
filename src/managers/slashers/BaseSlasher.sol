@@ -20,10 +20,7 @@ abstract contract BaseSlasher is BaseMiddleware {
      * @param timestamp The timestamp to check for key activity.
      * @return The address of the operator linked to the specified key.
      */
-    function getOperatorAndCheckCanSlash(
-        bytes memory key,
-        uint48 timestamp
-    ) public view returns (address operator) {
+    function getOperatorAndCheckCanSlash(bytes memory key, uint48 timestamp) public view returns (address operator) {
         operator = operatorByKey(key); // Get the operator associated with the key
 
         if (operator == address(0)) {

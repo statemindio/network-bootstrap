@@ -9,7 +9,6 @@ import {
 } from "../../interfaces/external/AggregatorV3Interface.sol";
 
 abstract contract BaseChainlinkPriceAdapter is BaseOracle {
-
     error InvalidPhaseId();
     error InvalidHistoricalChainlinkPrice();
     error InvalidHistoricalData();
@@ -20,7 +19,7 @@ abstract contract BaseChainlinkPriceAdapter is BaseOracle {
         AggregatorV2V3Interface feed,
         uint256 timestamp,
         uint80 roundId
-    ) internal view returns (uint price, uint8 feedDecimals) {
+    ) internal view returns (uint256 price, uint8 feedDecimals) {
         uint16 aggregatorPhaseID = EACAggregatorProxy(address(feed)).phaseId();
         uint16 phaseId = uint16(roundId >> 64);
 
@@ -39,7 +38,7 @@ abstract contract BaseChainlinkPriceAdapter is BaseOracle {
         }
 
         uint256 latestRound = feed.latestRound();
-        if (latestRound == roundId) return (uint(answer), feed.decimals());
+        if (latestRound == roundId) return (uint256(answer), feed.decimals());
 
         uint256 nextUpdatedAt;
         (,,, nextUpdatedAt,) = feed.getRoundData(roundId + 1);
@@ -48,7 +47,7 @@ abstract contract BaseChainlinkPriceAdapter is BaseOracle {
             revert InvalidHistoricalData();
         }
 
-        return (uint(answer), feed.decimals());
+        return (uint256(answer), feed.decimals());
     }
 
     function _getLatestPrice(AggregatorV2V3Interface feed, uint256 heartBeat) internal view returns (uint256, uint8) {
@@ -62,6 +61,6 @@ abstract contract BaseChainlinkPriceAdapter is BaseOracle {
             revert ChainlinkStalePrice();
         }
 
-        return (uint(answer), feed.decimals());
+        return (uint256(answer), feed.decimals());
     }
 }

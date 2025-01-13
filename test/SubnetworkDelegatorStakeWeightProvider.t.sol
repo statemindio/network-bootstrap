@@ -7,9 +7,7 @@ import "forge-std/Test.sol";
 import {Subnetwork} from "@symbioticfi/core/src/contracts/libraries/Subnetwork.sol";
 import {SubnetworkDelegatorStakeWeightProvider} from "../src/weights/SubnetworkDelegatorStakeWeightProvider.sol";
 
-
 contract SubnetworkDelegatorStakeWeightProviderTest is Test, VaultBaseTest {
-
     using Subnetwork for bytes32;
     using Subnetwork for address;
 
@@ -27,7 +25,7 @@ contract SubnetworkDelegatorStakeWeightProviderTest is Test, VaultBaseTest {
 
     SubnetworkDelegatorStakeWeightProvider weightProvider;
 
-    function setUp() override public {
+    function setUp() public override {
         super.setUp();
 
         // create vault with slasher
@@ -42,7 +40,6 @@ contract SubnetworkDelegatorStakeWeightProviderTest is Test, VaultBaseTest {
 
         weightProvider = new SubnetworkDelegatorStakeWeightProvider();
 
-
         // register network
         vm.startPrank(network);
         networkRegistry.registerNetwork();
@@ -54,7 +51,6 @@ contract SubnetworkDelegatorStakeWeightProviderTest is Test, VaultBaseTest {
         operatorNetworkOptInService.optIn(network);
         operatorVaultOptInService.optIn(vault);
         vm.stopPrank();
-
 
         // set network limit
         vm.startPrank(network);
