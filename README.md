@@ -1,4 +1,4 @@
-## ⚠️ Disclaimer: This code is NOT intended for a production use. The SDK is a work in progress and is currently under audits. Use with caution.
+## ⚠️ Disclaimer: This code is NOT intended for a production use. The SDK is a work in progress and will be audited later. Breaking changes may occur in SDK updates as well as backward compatibility is not guaranteed. Use with caution.
 
 ## Network Bootstrap
 
@@ -14,7 +14,7 @@ The Statemind Network SDK is actively reusing/expanding the components of the Sy
 - Framework level - a set of basic components(base managers, libraries) of the Statement SDK and Symbiotic SDK
 - Component level - a set of extended components (extensions) implemented in the Statemind SDK.
 Flexible and extendable. Developers can implement new components or extend existing.
-- Implementation level - a set of ready-made NetworkMiddleware implementations for deployment.
+- Implementation level - a set of ready-made `NetworkMiddleware` implementations for deployment.
 The library will provide more `NetworkMiddleware` implementations depending on the types of behavior strategies.
 
 ## Components:
